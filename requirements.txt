@@ -1,0 +1,8 @@
+scapy
+netifaces
+tftpy
+termcolor
+httpserver
+pyyaml
+httpserver
+

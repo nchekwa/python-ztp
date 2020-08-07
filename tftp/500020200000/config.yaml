@@ -1,0 +1,46 @@
+500020200000:
+  ###################################################################################################
+  # DHCP Options:
+  # https://fossies.org/linux/scapy/scapy/layers/dhcp.py
+  # 12 - Hostname string [RFC2132] 
+  hostname: Spine-20
+
+  # 15 - The DNS domain name of the client [RFC2132] 
+  domain: juniper.lab
+
+  # 50 - Requested IP Address [RFC2132] 
+  ip: 10.240.40.20
+
+  # 1 - Subnet Mask [RFC2132] 
+  subnet_mask: 255.255.252.0
+
+  # 3 - N/4 Router addresses [RFC2132] 
+  router: 10.240.40.1
+
+  # 5 - Name Server [RFC2132] 
+  # Only one name_server is supported (1 IP address)
+  name_server: 8.8.8.8
+
+  # 51 - IP Address Lease Time
+  lease_time: 3600
+
+  #  66 - TFTP Server Name
+  # https://github.com/secdev/scapy/issues/2747
+  # sed -i 's/    67: StrField/    66: "tftp_server_name",\n    67: StrField/g' /usr/local/lib/python3.6/site-packages/scapy/layers/dhcp.py
+  tftp_server_name: 10.240.40.254
+
+  #  67 - TFTP Server Name
+  boot-file-name: juniper.sh
+
+  # 150 - TFTP Server Address (Etherboot)
+  # https://github.com/secdev/scapy/issues/2747
+  # sed -i 's/    255: "end"/    150: IPField("tftp_server_address", "0.0.0.0"),\n    255: "end"/g' /usr/local/lib/python3.6/site-packages/scapy/layers/dhcp.py
+  tftp_server_address: 10.240.40.254
+
+  # 43 - Vendor Specific Information
+  # 0: image-file-name [ie. junos.tgz]
+  # 1: config-file-name [ie. ex4300-01.cfg]
+  # 3: transfer-mode [ie. tftp / ftp / http]
+  #vendor_specific: 0:junos.tgz,1:ex4300-01.cfg,3:http
+  vendor_specific: 1:juniper.sh,3:tftp
+  #vendor_specific: 3.4.116.102
