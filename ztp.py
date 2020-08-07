@@ -316,8 +316,7 @@ def op43(text_value):
     return(ret)
 
 if __name__ == "__main__":
-    signal(SIGINT, handler)
-    print('Running. Press CTRL-C to exit.')
+    signal(SIGINT, handler) 
     while True:
         parser = argparse.ArgumentParser(prog='ztp.py')
         parser.add_argument('-i', '--interface', help='Interface to service requests', default='eth1')
@@ -328,6 +327,7 @@ if __name__ == "__main__":
         parser.add_argument('-d', '--pcap', help='PCAP file name', default='False')
         args = parser.parse_args()
         kwargs = vars(args)
+        print('Running. Press CTRL-C to exit.')
 
         if kwargs['pcap'] != "False":
             pktdump = PcapWriter(kwargs['pcap'].replace(".pcap|.pcapng", "")+".pcap", append=True, sync=True)
