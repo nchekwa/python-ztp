@@ -1,8 +1,8 @@
 # ZTP (DHCP/TFTP/HTTP)<br>
 Simple Python3 script which based on predefined YAML file can offer DHCP/IP for device.<br>
-Running TFTP/HTTP included in script allow host for device config and firmware which will be pointed in bootstrap/dhcp options.<br>
+the script has built-in protocol TFTP/HTTP support, so host wich will get IP can also download config and firmware which will be pointed as dhcp options.<br>
 
-
+## Syntax:
 ```console
 [root@server ztp]# ./ztp.py -h
 usage: ztp.py [-h] [-i INTERFACE] [-l LIMIT] [-p PATH] [--port_tftp PORT_TFTP]
@@ -25,5 +25,5 @@ optional arguments:
  total           410900K
 ```
 
-
+## Example:
 ![Screenshot](doc/img/example_1.png)
