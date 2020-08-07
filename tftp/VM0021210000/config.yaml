@@ -1,4 +1,5 @@
 VM0021210000:
+  # VM0021210000 - in this case it is hostname
   ### mac
   # Mac is not mandatory - mac format allow seperators [.:-] 
   # If device not inform DHCP server about hostname - then we can recognize it by this mac
