@@ -13,7 +13,7 @@
 ##########################################################
 """
 First install all necessary libs
-pip3 install -r requirements.txt
+bash# pip3 install -r requirements.txt
 """
 from __future__ import print_function
 from scapy.all import *
