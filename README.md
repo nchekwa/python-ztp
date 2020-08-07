@@ -1,8 +1,10 @@
-ZTP (DHCP/TFTP/HTTP)
+# ZTP (DHCP/TFTP/HTTP)<br>
+Simple Python3 script which based on predefined YAML file can offer DHCP/IP for device.<br>
+Running TFTP/HTTP included in script allow host for device config and firmware which will be pointed in bootstrap/dhcp options.<br>
 
 
 ```console
-./ztp.py -h
+[root@server ztp]# ./ztp.py -h
 usage: ztp.py [-h] [-i INTERFACE] [-l LIMIT] [-p PATH] [--port_tftp PORT_TFTP]
               [--port_http PORT_HTTP] [-d PCAP]
 
@@ -18,4 +20,10 @@ optional arguments:
   --port_http PORT_HTTP
                         HTTP port
   -d PCAP, --pcap PCAP  PCAP file name
+  
+[root@server ztp]# pmap 3068 | grep total
+ total           410900K
 ```
+
+
+![Screenshot](doc/img/example_1.png)
