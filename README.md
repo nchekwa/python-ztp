@@ -1,6 +1,6 @@
 # Zero touch provisioning (ZTP) (include DHCP/TFTP/HTTP)<br>
 Simple Python3 script which based on predefined YAML file can offer DHCP/IP for device.<br>
-the script has built-in protocol TFTP/HTTP support, so host wich will get IP can also download config and firmware which will be pointed as dhcp options.<br>
+Script has built-in TFTP/HTTP servers, so host would be also able to download config/firmware which will be pointed as dhcp options..<br>
 
 ## Syntax:
 ```console
