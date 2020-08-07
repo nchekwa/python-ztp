@@ -190,9 +190,17 @@ class DhcpResponder(object):
         
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
+
+        # If source [Discovery] packet was address from 0.0.0.0
+        # reponse by Broadcast
+        init_ip_src = packet[IP].src
+        if init_ip_src == "0.0.0.0":
+            ip_dst = "255.255.255.255"
+        else:
+            ip_dst = init_ip_src
         
         ethernet = Ether(src=kwargs['my_mac'] , dst=mac, type=0x800)
-        ip       = IP(src = kwargs['my_ip'], dst="255.255.255.255")
+        ip       = IP(src = kwargs['my_ip'], dst=ip_dst)
         udp      = UDP (sport=67, dport=68)
         bootp    = BOOTP(   op=2, 
                             #ciaddr=,               # (Client IP Address)
@@ -220,8 +228,16 @@ class DhcpResponder(object):
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
         
+        # If source [Discovery] packet was address from 0.0.0.0
+        # reponse by Broadcast
+        init_ip_src = packet[IP].src
+        if init_ip_src == "0.0.0.0":
+            ip_dst = "255.255.255.255"
+        else:
+            ip_dst = init_ip_src
+
         ethernet = Ether(src=kwargs['my_mac'] , dst=mac, type=0x800)
-        ip       = IP(src = kwargs['my_ip'], dst="255.255.255.255")
+        ip       = IP(src = kwargs['my_ip'], dst=ip_dst)
         udp      = UDP (sport=67, dport=68)
         bootp    = BOOTP(   op=2, 
                             #ciaddr=,               # (Client IP Address)
