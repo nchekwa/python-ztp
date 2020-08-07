@@ -352,7 +352,7 @@ if __name__ == "__main__":
         
         # TFTP
         if kwargs['path'] != "None" and  kwargs['path'] != "none":
-            print(colored('[facts]    ', 'blue') +'TFTP Path: ' + colored(kwargs['path'], 'green'))
+            print(colored('[facts]    ', 'blue') +'File Path: ' + colored(kwargs['path'], 'green'))
             Tftp = TftpServer(**kwargs)
             handle_tftp_t = Tftp.start()
 
@@ -361,5 +361,5 @@ if __name__ == "__main__":
         handle_http_t = Http.start()
 
         # Start Sniffer
-        print (colored('[OK]       ', 'green') + 'DHCP starting sniffer - udp and (port 67 or 68)')
+        print (colored('[OK]       ', 'green') + 'DHCP starting sniffer '+kwargs['interface']+' - udp and (port 67 or 68)')
         sniff(iface=kwargs['interface'], filter="udp and (port 67 or 68)", prn=handle_dhcp_packet)
