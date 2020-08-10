@@ -6,7 +6,7 @@ Built-in TFTP/HTTP servers allow host download config/firmware which was pointed
 <i>No more installing Isc/Kea DHCP and configuring DHCP scopes/TFTP/HTTP... </i> 
 
 ## Syntax:
-```bash
+```console
 [root@server ztp]# ./ztp.py -h
 usage: ztp.py [-h] [-i INTERFACE] [-l LIMIT] [-p PATH] [--port_tftp PORT_TFTP]
               [--port_http PORT_HTTP] [-d PCAP]
@@ -26,7 +26,7 @@ optional arguments:
 ```
 
 ## Memory consumption:
-```bash
+```console
 [root@server ztp]# pmap 3068 | grep total
  total           410900K
 ```
