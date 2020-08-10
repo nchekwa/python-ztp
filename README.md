@@ -58,7 +58,7 @@ YAML Config format:<br>
 ```
 In some cases new unboxed device report as <hostname> their serial number so in this situation, if script discovery that host inside Discovery message match this <i><hostname/name></i> - it will use this config.<br>
   
-![DHCP_Discovery](doc/img/dhcp_discovery.png)
+![DHCP_Discovery](doc/img/dhcp_discover.png)
 
 If name which is reported will not be found - it will check in 2nd step mac match for DHCP request.<br>
 <b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
