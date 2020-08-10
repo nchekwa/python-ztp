@@ -31,7 +31,7 @@ optional arguments:
 ## Example:
 ![Screenshot](doc/img/example_1.png)
 
-### Config Yaml file
+### Config Yaml file example:
 ```yaml
 VM0021210000:
   mac: 50:00:21:21:00:00
@@ -47,3 +47,24 @@ VM0021210000:
   tftp_server_address: 10.240.40.254
   vendor_specific: 0:junos.tgz,1:VM0021210000/juniper.sh,3:http
 ```
+<br>
+Config needs to be store in tftp folder ins single / or multiple yaml files.<>
+Format:
+```yaml
+<hostname>:
+  mac: <mac - allow format wit .:->
+  <parameters>: <value>
+```
+In most cases factory unboxed device report as <hostname> their serial number so in this case if script discovery that this name match - it will use this config.<br>
+If name which is reported will not be found - it will check in 2nd step mac match for DHCP request.<br>
+<b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
+Please note that parameters <b>tftp_server_name</b> (option 66) and <b>tftp_server_address</b> (option 150) are missing in scapy layer lib so it needs to be added manually:<br>
+  
+```bash
+sed -i 's/    67: StrField/    66: "tftp_server_name",\n    67: StrField/g' /usr/local/lib/python3.6/site-packages/scapy/layers/dhcp.py
+sed -i 's/    255: "end"/    150: IPField("tftp_server_address", "0.0.0.0"),\n    255: "end"/g' /usr/local/lib/python3.6/site-packages/scapy/layers/dhcp.py
+```
+Scapy issie [2747](https://github.com/secdev/scapy/issues/2747)
+
+
+  
