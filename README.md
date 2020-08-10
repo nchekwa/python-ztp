@@ -56,11 +56,11 @@ YAML Config format:<br>
   mac: <mac - allow format with seperators like .:->
   <parameter>: <value>
 ```
-In some cases new unboxed device report as <b>hostname</b> their serial number so in this situation, if script discovery that hostname inside Discovery message match this <i><hostname/name></i> - it will use this config to configure this device.<br>
+In some cases new unboxed device report as <b>hostname</b> their serial number so in this situation, if script discovery that hostname inside Discovery message match this <i><hostname/name></i> - it will use this config section to send Offer.<br>
   
 ![DHCP_Discovery](doc/img/dhcp_discover.png)
 
-If <b>hostname/name</b> which is reported will not be found in config file - it will check in 2nd step mac match for DHCP request in all configs.<br>
+If <b>hostname/name</b>  will not be found in config files - it will check in 2nd step - <b><i>mac</i></b> match - for DHCP request in all configs.<br><br>
 <b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
 Please note that parameters <b>tftp_server_name</b> (option 66) and <b>tftp_server_address</b> (option 150) are missing in scapy layer lib so it needs to be added manually:<br>
   
