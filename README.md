@@ -43,7 +43,7 @@ VM0021210000:
   ip: 10.240.40.21
   subnet_mask: 255.255.252.0
   router: 10.240.40.1
-  name_server: 8.8.8.8
+  name_server: 8.8.8.8       // (only SINGLE server supported)
   lease_time: 60
   tftp_server_name: 10.240.40.254
   boot-file-name: juniper.config
