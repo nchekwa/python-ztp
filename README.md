@@ -48,14 +48,14 @@ VM0021210000:
   vendor_specific: 0:junos.tgz,1:VM0021210000/juniper.sh,3:http
 ```
 <br>
-Config needs to be store in tftp folder ins single / or multiple yaml files.<>
-Format:
+Config needs to be store in tftp folder in single / or multiple yaml files.<br>
+YAML Config format:
 ```yaml
-<hostname>:
-  mac: <mac - allow format wit .:->
-  <parameters>: <value>
+<hostname/name>:
+  mac: <mac - allow format with seperators like .:->
+  <parameter>: <value>
 ```
-In most cases factory unboxed device report as <hostname> their serial number so in this case if script discovery that this name match - it will use this config.<br>
+In some cases new unboxed device report as <hostname> their serial number so in this situation, if script discovery that host inside Discovery message match this <i><hostname/name></i> - it will use this config.<br>
 If name which is reported will not be found - it will check in 2nd step mac match for DHCP request.<br>
 <b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
 Please note that parameters <b>tftp_server_name</b> (option 66) and <b>tftp_server_address</b> (option 150) are missing in scapy layer lib so it needs to be added manually:<br>
