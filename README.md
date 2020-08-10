@@ -52,6 +52,7 @@ VM0021210000:
 ```
 <br>
 Config needs to be store in tftp folder in single / or multiple yaml files.<br>
+Configs are checked/read everytime when new dhcp Discovery pacet would be capture.<br> This consuming some resorces (utlize disk) but allow you 'in fly' modyfie config without restarting ztp instance.<br>
 YAML Config format:<br>
 
 ```yaml
