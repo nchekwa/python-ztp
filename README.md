@@ -57,6 +57,7 @@ YAML Config format:<br>
   <parameter>: <value>
 ```
 In some cases new unboxed device report as <hostname> their serial number so in this situation, if script discovery that host inside Discovery message match this <i><hostname/name></i> - it will use this config.<br>
+![Screenshot](doc/img/dhcp_discovery.png)
 If name which is reported will not be found - it will check in 2nd step mac match for DHCP request.<br>
 <b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
 Please note that parameters <b>tftp_server_name</b> (option 66) and <b>tftp_server_address</b> (option 150) are missing in scapy layer lib so it needs to be added manually:<br>
