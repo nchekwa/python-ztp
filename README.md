@@ -20,7 +20,7 @@ optional arguments:
                         TFTP port
   --port_http PORT_HTTP
                         HTTP port
-  -d PCAP, --pcap PCAP  PCAP file name
+  -d PCAP, --pcap PCAP  collect PCAP file name for debug
 ```
 
 ## Memory consumption:

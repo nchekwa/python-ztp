@@ -340,7 +340,7 @@ if __name__ == "__main__":
         parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='/tmp/tftp')
         parser.add_argument('--port_tftp', help='TFTP port', default=69)
         parser.add_argument('--port_http', help='HTTP port', default=80)
-        parser.add_argument('-d', '--pcap', help='PCAP file name', default='False')
+        parser.add_argument('-d', '--pcap', help='collect PCAP file name for debug', default='False')
         args = parser.parse_args()
         kwargs = vars(args)
         print('Running. Press CTRL-C to exit.')
