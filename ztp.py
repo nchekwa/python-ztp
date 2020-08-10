@@ -336,7 +336,7 @@ if __name__ == "__main__":
     while True:
         parser = argparse.ArgumentParser(prog='ztp.py')
         parser.add_argument('-i', '--interface', help='Interface to service requests', default='eth1')
-        parser.add_argument('-l', '--limit', help='Limit to hostname or mac', default='Spine-20')
+        # parser.add_argument('-l', '--limit', help='Limit to hostname or mac', default='Spine-20')
         parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='/tmp/tftp')
         parser.add_argument('--port_tftp', help='TFTP port', default=69)
         parser.add_argument('--port_http', help='HTTP port', default=80)

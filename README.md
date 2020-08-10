@@ -15,8 +15,6 @@ optional arguments:
   -h, --help            show this help message and exit
   -i INTERFACE, --interface INTERFACE
                         Interface to service requests
-  -l LIMIT, --limit LIMIT
-                        Limit to hostname or mac
   -p PATH, --path PATH  TFTP folder path. Set `None` to disable TFTP
   --port_tftp PORT_TFTP
                         TFTP port
