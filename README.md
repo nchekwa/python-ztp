@@ -49,7 +49,8 @@ VM0021210000:
 ```
 <br>
 Config needs to be store in tftp folder in single / or multiple yaml files.<br>
-YAML Config format:
+YAML Config format:<br>
+
 ```yaml
 <hostname/name>:
   mac: <mac - allow format with seperators like .:->
