@@ -56,11 +56,11 @@ YAML Config format:<br>
   mac: <mac - allow format with seperators like .:->
   <parameter>: <value>
 ```
-In some cases new unboxed device report as <hostname> their serial number so in this situation, if script discovery that host inside Discovery message match this <i><hostname/name></i> - it will use this config.<br>
+In some cases new unboxed device report as <b>hostname</b> their serial number so in this situation, if script discovery that hostname inside Discovery message match this <i><hostname/name></i> - it will use this config to configure this device.<br>
   
 ![DHCP_Discovery](doc/img/dhcp_discover.png)
 
-If name which is reported will not be found - it will check in 2nd step mac match for DHCP request.<br>
+If <b>hostname/name</b> which is reported will not be found in config file - it will check in 2nd step mac match for DHCP request in all configs.<br>
 <b>parameters</b> are related to scapy dhcp layer lib which can be found under this [Link](https://github.com/secdev/scapy/blob/master/scapy/layers/dhcp.py) -> DHCPOptions<br>
 Please note that parameters <b>tftp_server_name</b> (option 66) and <b>tftp_server_address</b> (option 150) are missing in scapy layer lib so it needs to be added manually:<br>
   
@@ -69,6 +69,3 @@ sed -i 's/    67: StrField/    66: "tftp_server_name",\n    67: StrField/g' /usr
 sed -i 's/    255: "end"/    150: IPField("tftp_server_address", "0.0.0.0"),\n    255: "end"/g' /usr/local/lib/python3.6/site-packages/scapy/layers/dhcp.py
 ```
 Scapy issie [2747](https://github.com/secdev/scapy/issues/2747)
-
-
-  
