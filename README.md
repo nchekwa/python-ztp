@@ -23,7 +23,10 @@ optional arguments:
   --port_http PORT_HTTP
                         HTTP port
   -d PCAP, --pcap PCAP  PCAP file name
-  
+```
+
+## Memory consumption:
+```bash
 [root@server ztp]# pmap 3068 | grep total
  total           410900K
 ```
