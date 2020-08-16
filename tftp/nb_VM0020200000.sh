@@ -19,6 +19,17 @@ generate_basic_config()
         root-authentication {
             encrypted-password "\$6\$FeMUNElz\$simgBrbhenZVQ2JGGMRgtyYydjsAPf5cdZmK3KGSzV.kKGk9IC6PwSF246Kiqd1Zwl0NsCp.wBrWsdp2/5eTa/";
         }
+        # set system login user napalm class super-user
+        # set system login user napalm authentication plain-text-password   <NapalmJuniper123>
+        login {
+            user napalm {
+                uid 2000;
+                class super-user;
+                authentication {
+                    encrypted-password "\$6\$fsh/wyMa\$ZdxtKAPru5xaYS0GjqXn3Ri.48xj4rAJ4vrYoTckCSFKA2/oWf3GqI8vLWzfYsX5JgBzBC5paFyRrSSpz2S4d1"; 
+                }
+            }
+        }
         services {
             ssh {
                 root-login allow;
