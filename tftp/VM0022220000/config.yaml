@@ -1,21 +1,21 @@
-VM0021210000:
-  # VM0021210000 - in this case it is hostname
+VM0022220000:
+  # VM0022220000 - in this case it is hostname
   ### mac
   # Mac is not mandatory - mac format allow seperators [.:-] 
   # If device not inform DHCP server about hostname - then we can recognize it by this mac
-  mac: 50:00:21:21:00:00
+  mac: 50:00:22:22:00:00
 
   ###################################################################################################
   # DHCP Options:
   # https://fossies.org/linux/scapy/scapy/layers/dhcp.py
   # 12 - Hostname string [RFC2132] 
-  hostname: Spine-21
+  hostname: Spine-22
 
   # 15 - The DNS domain name of the client [RFC2132] 
   domain: juniper.lab
 
   # 50 - Requested IP Address [RFC2132] 
-  ip: 10.240.40.21
+  ip: 10.240.40.22
 
   # 1 - Subnet Mask [RFC2132] 
   subnet_mask: 255.255.252.0

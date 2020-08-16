@@ -1,15 +1,15 @@
-500020200000:
+500024240000:
   ###################################################################################################
   # DHCP Options:
   # https://fossies.org/linux/scapy/scapy/layers/dhcp.py
   # 12 - Hostname string [RFC2132] 
-  hostname: Spine-20
+  hostname: Spine-24
 
   # 15 - The DNS domain name of the client [RFC2132] 
   domain: juniper.lab
 
   # 50 - Requested IP Address [RFC2132] 
-  ip: 10.240.40.20
+  ip: 10.240.40.24
 
   # 1 - Subnet Mask [RFC2132] 
   subnet_mask: 255.255.252.0

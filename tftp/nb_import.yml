@@ -1,0 +1,61 @@
+VM0020200000:
+  domain: juniper.lab
+  hostname: Spine-20
+  ip: 10.240.40.20
+  lease_time: 3600
+  mac: '50:00:20:20:00:00'
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0020200000.sh,3:tftp
+VM0021210000:
+  domain: juniper.lab
+  hostname: Spine-21
+  ip: 10.240.40.21
+  lease_time: 3600
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0021210000.sh,3:tftp
+VM0030300000:
+  domain: juniper.lab
+  hostname: Leaf-30
+  ip: 10.240.40.30
+  lease_time: 3600
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0030300000.sh,3:tftp
+VM0031310000:
+  domain: juniper.lab
+  hostname: Leaf-31
+  ip: 10.240.40.31
+  lease_time: 3600
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0031310000.sh,3:tftp
+VM0032320000:
+  domain: juniper.lab
+  hostname: Leaf-32
+  ip: 10.240.40.32
+  lease_time: 3600
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0032320000.sh,3:tftp
+VM0033330000:
+  domain: juniper.lab
+  hostname: Leaf-33
+  ip: 10.240.40.33
+  lease_time: 3600
+  name_server: 8.8.8.8
+  router: 10.240.43.254
+  subnet_mask: 255.255.252.0
+  tftp_server_address: 10.240.40.254
+  vendor_specific: 1:nb_VM0033330000.sh,3:tftp

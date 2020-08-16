@@ -156,7 +156,8 @@ class DhcpResponder(object):
         #print(os.walk(path))
         for r, d, f in os.walk(path):
             for file in f:
-                if 'config.yaml' in file:
+                if file.lower().endswith(('.yaml', '.yml')):
+                    #print(file)
                     files.append(os.path.join(r, file))
         
         #print(files)
@@ -337,7 +338,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(prog='ztp.py')
         parser.add_argument('-i', '--interface', help='Interface to service requests', default='eth1')
         # parser.add_argument('-l', '--limit', help='Limit to hostname or mac', default='Spine-20')
-        parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='/tmp/tftp')
+        parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='./tftp')
         parser.add_argument('--port_tftp', help='TFTP port', default=69)
         parser.add_argument('--port_http', help='HTTP port', default=80)
         parser.add_argument('-d', '--pcap', help='collect PCAP file name for debug', default='False')

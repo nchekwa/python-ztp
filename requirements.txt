@@ -4,5 +4,5 @@ tftpy
 termcolor
 httpserver
 pyyaml
-httpserver
-
+Template
+Jinja2

@@ -1,0 +1,34 @@
+---
+# Edit this file to define the details to configure on Netbox
+
+# netbox vars
+netbox_url: 'http://192.168.254.90/'     # //https is not supported yet
+netbox_token: '678bcbfccbbcb6a59069438b89b5d0f9e4a3081a'
+
+
+# Parameters which will be used for generate config file
+config:
+  # Domain
+  domain: juniper.lab
+
+  # If router empty - it will assign automaticly first address from network range (.1)
+  # If router == -1 - it will assign last ip address from network range (.254)
+  router: -1
+
+  # Only one IP address is supported
+  name_server: 8.8.8.8
+
+  # Lease Time in sec
+  lease_time: 3600
+
+  # TFTP Server Name
+  tftp_server_name:
+
+  # TFTP Server Address
+  tftp_server_address: 10.240.40.254
+
+  # Vendor Specific Boot Parameters
+  vendor_specific: True
+
+  # Boot file name
+  boot-file-name:
