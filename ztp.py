@@ -157,7 +157,6 @@ class DhcpResponder(object):
         for r, d, f in os.walk(path):
             for file in f:
                 if file.lower().endswith(('.yaml', '.yml')):
-                    #print(file)
                     files.append(os.path.join(r, file))
         
         #print(files)
@@ -338,7 +337,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(prog='ztp.py')
         parser.add_argument('-i', '--interface', help='Interface to service requests', default='eth1')
         # parser.add_argument('-l', '--limit', help='Limit to hostname or mac', default='Spine-20')
-        parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='./tftp')
+        parser.add_argument('-p', '--path', help='TFTP folder path. Set `None` to disable TFTP', default='tftp')
         parser.add_argument('--port_tftp', help='TFTP port', default=69)
         parser.add_argument('--port_http', help='HTTP port', default=80)
         parser.add_argument('-d', '--pcap', help='collect PCAP file name for debug', default='False')
@@ -357,6 +356,13 @@ if __name__ == "__main__":
         print(colored('[facts]    ', 'blue') + kwargs['interface']+" IP: " + colored(kwargs['my_ip'], 'green'))
         kwargs['my_mac']  = addrs[netifaces.AF_LINK][0]['addr']
         print(colored('[facts]    ', 'blue') + kwargs['interface']+" MAC: " + colored(kwargs['my_mac'], 'green'))
+
+        # Normalizing path
+        if (re.search('^/', kwargs['path'])):
+            pass
+        else:
+            kwargs['path'] = os.getcwd() + "/"+ kwargs['path']
+  
         if not os.path.isdir(kwargs['path']):
             print (colored('[error]', 'red') + "    File folder not exist")
             exit(1)
