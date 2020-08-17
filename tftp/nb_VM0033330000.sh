@@ -6,6 +6,9 @@ family=$(echo "show system information | display xml" | cli | grep hardware-mode
 #       user: root
 #       password: Juniper123
 #
+#       user: napalm
+#       password: NapalmJuniper123
+#
 # Generate own password:
 # bash-> openssl passwd -6 -salt <salt> <text-password>
 # Output format: # $6$somesalt$someveryverylongencryptedpasswd
@@ -19,8 +22,6 @@ generate_basic_config()
         root-authentication {
             encrypted-password "\$6\$FeMUNElz\$simgBrbhenZVQ2JGGMRgtyYydjsAPf5cdZmK3KGSzV.kKGk9IC6PwSF246Kiqd1Zwl0NsCp.wBrWsdp2/5eTa/";
         }
-        # set system login user napalm class super-user
-        # set system login user napalm authentication plain-text-password   <NapalmJuniper123>
         login {
             user napalm {
                 uid 2000;
