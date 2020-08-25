@@ -31,6 +31,8 @@ import threading
 from termcolor import colored
 from pprint import pprint 
 
+os.environ['PYTHONUNBUFFERED'] = '1'
+
 def handle_dhcp_packet(packet):
     if DHCP in packet:
         # Write PCAP File if needed
@@ -364,7 +366,7 @@ if __name__ == "__main__":
             kwargs['path'] = os.getcwd() + "/"+ kwargs['path']
   
         if not os.path.isdir(kwargs['path']):
-            print (colored('[error]', 'red') + "    File folder not exist")
+            print (colored('[error]', 'red') + "    File folder not exist: "+ kwargs['path'])
             exit(1)
         else:
             print(colored('[facts]    ', 'blue') + "File folder status: "+ colored('exist', 'green'))
