@@ -92,7 +92,7 @@ Please remember that this docker need to be exposed to net=host as we need to ge
   --name=ztp \
   --net=host \
   -e IFACE="eth1" \
-  -v /path/to/config:/config \
+  -v /tftp:/opt/ztp/tftp \
   --restart unless-stopped \
   nchekwa/python_ztp:latest
 
