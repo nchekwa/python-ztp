@@ -47,12 +47,12 @@ def handle_dhcp_packet(packet):
         
         # Get base information about packet
         DHCP_message_type = get_option(packet[DHCP].options, 'message-type')
-        hostname = get_option(packet[DHCP].options, 'hostname')
+        hostname = str(get_option(packet[DHCP].options, 'hostname'))
         xid = packet[BOOTP].xid
         chaddr = packet[BOOTP].chaddr
         src_mac = packet[Ether].src
         dhcp_src_mac = chaddr_to_mac(chaddr)
-
+        
         # Direction
         if packet[Ether].src == kwargs['my_mac']:
             direction = colored(kwargs['interface']+"| ->[Snd]", 'green')
@@ -61,7 +61,7 @@ def handle_dhcp_packet(packet):
 
         # Match DHCP Message Type = Discovery (1)
         if DHCP_message_type == 1:
-            print(direction + colored('[Discover]['+str(hex(xid))+'] ', 'blue') + "Host "+ hostname+ " ("+dhcp_src_mac+ ") asked for an IP")
+            print(direction + colored('[Discover]['+str(hex(xid))+'] ', 'blue') + "Host "+hostname+ " ("+dhcp_src_mac+ ") asked for an IP")
             
             # Read configuration as we going to answer
             dhcp = DhcpResponder()
@@ -153,7 +153,7 @@ def handler(signal_received, frame):
 def chaddr_to_mac(chaddr):
     mac_format = ":".join(hex(i)[2:] for i in chaddr[0:6])
     mac_format_fix = ":".join(map("{0:0>2}".format, mac_format.split(':')))
-    return mac_format_fix
+    return str(mac_format_fix)
 
 class DhcpResponder(object):
     def __init__(self):
