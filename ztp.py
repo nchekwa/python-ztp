@@ -2,7 +2,7 @@
 ##########################################################
 # ZTP (DHCP+TFTP+HTTP service)
 # Created by: Zdolinski Artur
-# Version: 0.5 [20200807]
+# Version: 0.6 [20200925]
 #
 # if you need - you can disable cache (__pycache__)
 # > bash# export PYTHONDONTWRITEBYTECODE=1
@@ -32,6 +32,7 @@ from termcolor import colored
 from pprint import pprint 
 
 os.environ['PYTHONUNBUFFERED'] = '1'
+conf.sniff_promisc=True
 
 def handle_dhcp_packet(packet):
     if DHCP in packet:
@@ -50,6 +51,7 @@ def handle_dhcp_packet(packet):
         xid = packet[BOOTP].xid
         chaddr = packet[BOOTP].chaddr
         src_mac = packet[Ether].src
+        dhcp_src_mac = chaddr_to_mac(chaddr)
 
         # Direction
         if packet[Ether].src == kwargs['my_mac']:
@@ -59,7 +61,7 @@ def handle_dhcp_packet(packet):
 
         # Match DHCP Message Type = Discovery (1)
         if DHCP_message_type == 1:
-            print(direction + colored('[Discover]['+str(hex(xid))+'] ', 'blue') + "Host "+ hostname+ " ("+src_mac+ ") asked for an IP")
+            print(direction + colored('[Discover]['+str(hex(xid))+'] ', 'blue') + "Host "+ hostname+ " ("+dhcp_src_mac+ ") asked for an IP")
             
             # Read configuration as we going to answer
             dhcp = DhcpResponder()
@@ -67,8 +69,8 @@ def handle_dhcp_packet(packet):
 
             if config.get(hostname) is not None:
                 dhcp.send_offer(packet, config[hostname])
-            elif config.get("MAC-"+src_mac.replace(".","").replace("-","").replace(":","")) is not None:
-                dhcp.send_offer(packet, config["MAC-"+src_mac.replace(".","").replace("-","").replace(":","")])
+            elif config.get("MAC-"+dhcp_src_mac.replace(".","").replace("-","").replace(":","")) is not None:
+                dhcp.send_offer(packet, config["MAC-"+dhcp_src_mac.replace(".","").replace("-","").replace(":","")])
 
         # Match DHCP Message Type = Replay (2)
         elif DHCP_message_type == 2:
@@ -77,12 +79,12 @@ def handle_dhcp_packet(packet):
             router = get_option(packet[DHCP].options, 'router')
             name_server = get_option(packet[DHCP].options, 'name_server')
             domain = get_option(packet[DHCP].options, 'domain')
-            print(direction+colored('[Offer]['+str(hex(xid))+'] ', 'yellow') + "DHCP Server "+packet[IP].src+" ("+src_mac+") offered "+packet[BOOTP].yiaddr+" ("+packet[Ether].dst+")")
+            print(direction+colored('[Offer]['+str(hex(xid))+'] ', 'yellow') + "DHCP Server "+packet[IP].src+" ("+src_mac+") offered "+packet[BOOTP].yiaddr+" ("+dhcp_src_mac+")")
             
         # Match DHCP Message Type = Request (3)
         elif DHCP_message_type == 3:
             requested_addr = get_option(packet[DHCP].options, 'requested_addr')
-            print(direction+colored('[Request]['+str(hex(xid))+'] ', 'magenta') + "Host "+ str(hostname) +" ("+src_mac+") requested " + str(requested_addr))
+            print(direction+colored('[Request]['+str(hex(xid))+'] ', 'magenta') + "Host "+ str(hostname) +" ("+dhcp_src_mac+") requested " + str(requested_addr))
 
             # Read configuration as we going to answer
             dhcp = DhcpResponder()
@@ -90,12 +92,12 @@ def handle_dhcp_packet(packet):
 
             if config.get(hostname) is not None:
                 dhcp.send_ack(packet, config[hostname])
-            elif config.get("MAC-"+src_mac.replace(".","").replace("-","").replace(":","")) is not None:
-                dhcp.send_ack(packet, config["MAC-"+src_mac.replace(".","").replace("-","").replace(":","")])
+            elif config.get("MAC-"+dhcp_src_mac.replace(".","").replace("-","").replace(":","")) is not None:
+                dhcp.send_ack(packet, config["MAC-"+dhcp_src_mac.replace(".","").replace("-","").replace(":","")])
         
         # Match DHCP Message Type = Decline (4)
         elif DHCP_message_type == 4:
-            print(direction + colored('[Decline]['+str(hex(xid))+'] ', 'red') + "Host ("+src_mac+") declined the offer")
+            print(direction + colored('[Decline]['+str(hex(xid))+'] ', 'red') + "Host ("+dhcp_src_mac+") declined the offer")
             
         # Match DHCP Message Type = Ack (5)
         elif DHCP_message_type == 5:
@@ -148,6 +150,11 @@ def handler(signal_received, frame):
         handle_http_t._stop
     exit(0)
 
+def chaddr_to_mac(chaddr):
+    mac_format = ":".join(hex(i)[2:] for i in chaddr[0:6])
+    mac_format_fix = ":".join(map("{0:0>2}".format, mac_format.split(':')))
+    return mac_format_fix
+
 class DhcpResponder(object):
     def __init__(self):
         pass
@@ -187,11 +194,15 @@ class DhcpResponder(object):
 
     def send_offer(self, packet, offer):
         xid = packet[BOOTP].xid
-        chaddr = packet[BOOTP].chaddr
+        chaddr = packet[BOOTP].chaddr   # Client MAC Address
+        giaddr = packet[BOOTP].giaddr   # Relay agent IP address
+        ciaddr = packet[BOOTP].ciaddr   # Client IP Address
         mac = packet[Ether].src
         
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
+        sport = packet[UDP].sport
+        dport = packet[UDP].dport
 
         # If source [Discovery] packet was address from 0.0.0.0
         # reponse by Broadcast
@@ -203,12 +214,13 @@ class DhcpResponder(object):
         
         ethernet = Ether(src=kwargs['my_mac'] , dst=mac, type=0x800)
         ip       = IP(src = kwargs['my_ip'], dst=ip_dst)
-        udp      = UDP (sport=67, dport=68)
-        bootp    = BOOTP(   op=2, 
-                            #ciaddr=,               # (Client IP Address)
+        udp      = UDP (sport=sport, dport=dport)
+        bootp    = BOOTP(   op=2,
+                            flags=32768,            # 0 - unicast / 32768 - broadcast
+                            ciaddr=ciaddr,          # (Client IP Address)
                             yiaddr=offer["ip"],     # (Your (client) IP Address)
                             siaddr=kwargs['my_ip'], # (Next server IP address)
-                            #giaddr=,               # (Relay agent IP Address)
+                            giaddr=giaddr,          # (Relay agent IP Address)
                             chaddr=chaddr,          # Client MAC Address
                             xid=xid                 # Rransaction ID
         )
@@ -224,12 +236,16 @@ class DhcpResponder(object):
 
     def send_ack(self, packet, offer):
         xid = packet[BOOTP].xid
-        chaddr = packet[BOOTP].chaddr
+        chaddr = packet[BOOTP].chaddr   # Client MAC Address
+        giaddr = packet[BOOTP].giaddr   # Relay agent IP address
+        ciaddr = packet[BOOTP].ciaddr   # Client IP Address
         mac = packet[Ether].src
         
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
-        
+        sport = packet[UDP].sport
+        dport = packet[UDP].dport
+
         # If source [Discovery] packet was address from 0.0.0.0
         # reponse by Broadcast
         init_ip_src = packet[IP].src
@@ -240,12 +256,13 @@ class DhcpResponder(object):
 
         ethernet = Ether(src=kwargs['my_mac'] , dst=mac, type=0x800)
         ip       = IP(src = kwargs['my_ip'], dst=ip_dst)
-        udp      = UDP (sport=67, dport=68)
-        bootp    = BOOTP(   op=2, 
-                            #ciaddr=,               # (Client IP Address)
+        udp      = UDP (sport=sport, dport=dport)
+        bootp    = BOOTP(   op=2,
+                            flags=32768,            # 0 - unicast / 32768 - broadcast
+                            ciaddr=ciaddr,          # (Client IP Address)
                             yiaddr=offer["ip"],     # (Your (client) IP Address)
                             siaddr=kwargs['my_ip'], # (Next server IP address)
-                            #giaddr=,               # (Relay agent IP Address)
+                            giaddr=giaddr,          # (Relay agent IP Address)
                             chaddr=chaddr,          # Client MAC Address
                             xid=xid                 # Rransaction ID
         )
@@ -386,5 +403,10 @@ if __name__ == "__main__":
         handle_http_t = Http.start()
 
         # Start Sniffer
+        # Open UDP socket to prevent ICMP Destination unreachable (Port unreachable)
+        UDP_IP = kwargs['my_ip']
+        UDP_PORT = 67
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+        sock.bind((UDP_IP, UDP_PORT))
         print (colored('[OK]       ', 'green') + 'DHCP starting sniffer '+kwargs['interface']+' - udp and (port 67 or 68)')
         sniff(iface=kwargs['interface'], filter="udp and (port 67 or 68)", prn=handle_dhcp_packet)
