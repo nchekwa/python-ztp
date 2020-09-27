@@ -5,19 +5,20 @@ VM0020200000:
   lease_time: 3600
   mac: '50:00:20:20:00:00'
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0020200000.sh,3:tftp
 VM0021210000:
   domain: juniper.lab
   hostname: Spine-21
   ip: 10.240.40.21
   lease_time: 3600
+  mac: '50:00:21:21:00:00'
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0021210000.sh,3:tftp
 VM0030300000:
   domain: juniper.lab
@@ -25,9 +26,10 @@ VM0030300000:
   ip: 10.240.40.30
   lease_time: 3600
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  mac: '50:00:30:30:00:00'
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0030300000.sh,3:tftp
 VM0031310000:
   domain: juniper.lab
@@ -35,9 +37,10 @@ VM0031310000:
   ip: 10.240.40.31
   lease_time: 3600
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  mac: '50:00:31:31:00:00'
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0031310000.sh,3:tftp
 VM0032320000:
   domain: juniper.lab
@@ -45,9 +48,10 @@ VM0032320000:
   ip: 10.240.40.32
   lease_time: 3600
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  mac: '50:00:32:32:00:00'
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0032320000.sh,3:tftp
 VM0033330000:
   domain: juniper.lab
@@ -55,7 +59,8 @@ VM0033330000:
   ip: 10.240.40.33
   lease_time: 3600
   name_server: 8.8.8.8
-  router: 10.240.43.254
+  mac: '50:00:33:33:00:00'
+  router: 10.240.40.1
   subnet_mask: 255.255.252.0
-  tftp_server_address: 10.240.40.254
+  tftp_server_address: 192.168.254.91
   vendor_specific: 1:nb_VM0033330000.sh,3:tftp

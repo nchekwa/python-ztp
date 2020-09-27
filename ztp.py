@@ -2,7 +2,7 @@
 ##########################################################
 # ZTP (DHCP+TFTP+HTTP service)
 # Created by: Zdolinski Artur
-# Version: 0.6 [20200925]
+# Version: 0.6a [20200927]
 #
 # if you need - you can disable cache (__pycache__)
 # > bash# export PYTHONDONTWRITEBYTECODE=1
@@ -34,6 +34,14 @@ from pprint import pprint
 os.environ['PYTHONUNBUFFERED'] = '1'
 conf.sniff_promisc=True
 
+
+# handle_dhcp_packet(packet)
+# get_option(dhcp_options, key)
+# threaded(fn)
+# handler(signal_received, frame)
+# chaddr_to_mac(chaddr)
+# op43(text_value)
+
 def handle_dhcp_packet(packet):
     if DHCP in packet:
         # Write PCAP File if needed
@@ -52,7 +60,7 @@ def handle_dhcp_packet(packet):
         chaddr = packet[BOOTP].chaddr
         src_mac = packet[Ether].src
         dhcp_src_mac = chaddr_to_mac(chaddr)
-        
+
         # Direction
         if packet[Ether].src == kwargs['my_mac']:
             direction = colored(kwargs['interface']+"| ->[Snd]", 'green')
@@ -74,7 +82,7 @@ def handle_dhcp_packet(packet):
 
         # Match DHCP Message Type = Replay (2)
         elif DHCP_message_type == 2:
-            subnet_mask = get_option(packet[DHCP].options, 'subnet_mask')
+            #subnet_mask = get_option(packet[DHCP].options, 'subnet_mask')
             lease_time = get_option(packet[DHCP].options, 'lease_time')
             router = get_option(packet[DHCP].options, 'router')
             name_server = get_option(packet[DHCP].options, 'name_server')
@@ -102,7 +110,11 @@ def handle_dhcp_packet(packet):
         # Match DHCP Message Type = Ack (5)
         elif DHCP_message_type == 5:
             print(direction + colored('[Ack]['+str(hex(xid))+'] ', 'yellow') + "DHCP Server "+packet[IP].src+" ("+src_mac+") acked "+packet[BOOTP].yiaddr)
-            
+
+        # Match DHCP Message Type = Release (7)
+        elif DHCP_message_type == 7:
+            print(direction + colored('[Release]['+str(hex(xid))+'] ', 'red') +'DHCP Release from ('+dhcp_src_mac+') - IP: ' + str(packet[BOOTP].ciaddr) )
+
         # Match DHCP Message Type = Inform (8)
         elif DHCP_message_type == 8:
             vendor_class_id = get_option(packet[DHCP].options, 'vendor_class_id')
@@ -155,6 +167,26 @@ def chaddr_to_mac(chaddr):
     mac_format_fix = ":".join(map("{0:0>2}".format, mac_format.split(':')))
     return str(mac_format_fix)
 
+def op43(text_value):
+    ret = b""
+    xparam = text_value.replace(" ","").split(",")
+    for param in xparam:
+        p = param.split(":")
+        try:
+            p[1]
+        except:
+            return
+        tag = int(p[0])
+        value = p[1]
+        ret += struct.pack("BB", tag, len(str(value))) + str(value).encode()
+    ret += struct.pack("B", 255)
+    return(ret)
+
+# DhcpResponder
+#   -> __init__(self)
+#   -> get_parameters(self, path)
+#   -> send_offer(self, packet, offer)
+#   -> send_ack(self, packet, offer)
 class DhcpResponder(object):
     def __init__(self):
         pass
@@ -282,6 +314,11 @@ class DhcpResponder(object):
         packet   = ethernet / ip / udp / bootp / dhcp
         sendp(packet, iface=kwargs['interface'], verbose=False)
 
+
+# HttpServer(object)
+#   -> __init__(self, port=80,  **kwargs)
+#   -> start(self)
+#   -> stop(self)
 class HttpServer(object):
     def __init__(self, port=80,  **kwargs):
         self.port = int(kwargs['port_http'])
@@ -315,6 +352,10 @@ class HttpServer(object):
             self.httpd.shutdown()
         return
 
+# TftpServer(object)
+#   -> __init__(self, port=69, **kwargs)
+#   -> stop(self)
+#   -> start(self)
 class TftpServer(object):
     def __init__(self, port=69, **kwargs):
         self.port = int(kwargs['port_tftp'])
@@ -335,21 +376,9 @@ class TftpServer(object):
         except OSError:
             print (colored('[Warning]  ', 'red') + 'TFTP '+str(self.my_ip)+':'+str(self.port)+' port in use')
 
-def op43(text_value):
-    ret = b""
-    xparam = text_value.replace(" ","").split(",")
-    for param in xparam:
-        p = param.split(":")
-        try:
-            p[1]
-        except:
-            return
-        tag = int(p[0])
-        value = p[1]
-        ret += struct.pack("BB", tag, len(str(value))) + str(value).encode()
-    ret += struct.pack("B", 255)
-    return(ret)
-
+############
+### MAIN ###
+############
 if __name__ == "__main__":
     signal(SIGINT, handler) 
     while True:
