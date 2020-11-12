@@ -233,8 +233,8 @@ class DhcpResponder(object):
         
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
-        sport = packet[UDP].sport
-        dport = packet[UDP].dport
+        sport = packet[UDP].dport
+        dport = packet[UDP].sport
 
         # If source [Discovery] packet was address from 0.0.0.0
         # reponse by Broadcast
@@ -275,8 +275,8 @@ class DhcpResponder(object):
         
         parameters = copy.deepcopy(offer)
         parameters.pop('mac', None)
-        sport = packet[UDP].sport
-        dport = packet[UDP].dport
+        sport = packet[UDP].dport
+        dport = packet[UDP].sport
 
         # If source [Discovery] packet was address from 0.0.0.0
         # reponse by Broadcast
