@@ -2,7 +2,7 @@
 ##########################################################
 # ZTP (DHCP+TFTP+HTTP service)
 # Created by: Zdolinski Artur
-# Version: 0.6a [20200927]
+# Version: 0.6b [20201112]
 #
 # if you need - you can disable cache (__pycache__)
 # > bash# export PYTHONDONTWRITEBYTECODE=1
